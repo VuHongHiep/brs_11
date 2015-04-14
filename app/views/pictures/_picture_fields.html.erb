@@ -1,0 +1,6 @@
+<%= label_tag "Picture" %>
+<%= f.fields_for :pictures do |p| %>
+  <div class="field">
+   <%= p.file_field :picture, multiple: true, name: "picture_uploads[]" %>
+  </div>
+<% end %>

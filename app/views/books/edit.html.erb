@@ -3,7 +3,13 @@
 <div class = "col-md-8 col-md-offset-2">
   <%= form_for @book do |f| %>
     <%= render 'book_fields', f: f %>
-
+    <%= render @pictures %>
+    <%= label_tag "Picture" %>
+    <%= f.fields_for @book.pictures.build do |p| %>
+      <div class="field">
+       <%= p.file_field :picture, multiple: true, name: "picture_uploads[]" %>
+      </div>
+    <% end %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
   <% end %>
 </div>

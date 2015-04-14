@@ -12,6 +12,8 @@
       <%= f.label :content %>
       <%= f.text_area :content, class: "form-control" %>
 
+      <%= render 'pictures/picture_fields', f: f %>
+
       <%= f.submit "Create request", class: "button btn btn-primary" %>
     <% end %>
   </div>

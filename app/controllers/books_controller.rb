@@ -13,25 +13,35 @@ class BooksController < ApplicationController
 
   def new
     @book = Book.new
+    @picture = @book.pictures.build
   end
 
   def create
     @book = Book.new book_params
     if @book.save
-      flash[:success] = "Book created."
-      redirect_to books_path
+      params[:picture_uploads].each do |p|
+        @picture = @book.pictures.create!(picture: p, book_id: @book.id)
+      end
+      redirect_to @book
     else
-      render 'new'
+      render action: 'new'
     end
   end
 
   def edit
     @book = Book.find params[:id]
+    @pictures = @book.pictures
   end
 
   def update
     @book = Book.find params[:id]
     if @book.update_attributes book_params
+      if params[:picture_uploads]
+        @book.pictures.delete_all
+        params[:picture_uploads].each do |p|
+          @picture = @book.pictures.create!(picture: p, book_id: @book.id)
+        end
+      end
       flash[:success] = "Book updated"
       redirect_to books_path
     else
@@ -43,6 +53,7 @@ class BooksController < ApplicationController
     @book = Book.find params[:id]
     @readstatus = ReadStatus.latest current_user.id, @book.id
     @status = @readstatus.first.status if @readstatus.present?
+    @pictures = @book.pictures
   end
 
   def destroy
@@ -55,7 +66,8 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit :title, :author, :document, :category_ids, :publish_date, :number_of_page
+    params.require(:book).permit :title, :author, :document, :category_ids, :publish_date, :number_of_page,
+      pictures_attributes: [:id, :book_id, :picture]
   end
 
   def admin_user

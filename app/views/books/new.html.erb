@@ -3,7 +3,7 @@
 <div class = "col-md-8 col-md-offset-2">
   <%= form_for @book, html: {multipart: true} do |f| %>
     <%= render 'book_fields', f: f %>
-
+    <%= render 'pictures/picture_fields', f: f %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
   <% end %>
 </div>

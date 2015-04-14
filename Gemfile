@@ -11,6 +11,8 @@ gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem "paperclip", "~> 4.2"
 gem 'mini_magick',             '3.8.0'
+gem 'carrierwave',             '0.10.0'
+gem 'fog',                     '1.23.0'
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
@@ -51,4 +53,3 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

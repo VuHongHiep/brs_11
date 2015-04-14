@@ -12,6 +12,9 @@ class RequestsController < ApplicationController
     @user = User.find params[:user_id]
     @request = @user.requests.build request_params
     if @request.save
+      params[:picture_uploads].each do |p|
+        @picture = @request.pictures.create!(picture: p, request_id: @request.id)
+      end
       flash[:success] = "Request created!"
       redirect_to user_requests_path @user
     else
@@ -22,11 +25,13 @@ class RequestsController < ApplicationController
   def new
     @user = User.find params[:user_id]
     @request = Request.new
+    @picture = @request.pictures.build
   end
 
   def show
     @user = User.find params[:user_id]
     @request = Request.find params[:id]
+    @pictures = @request.pictures
   end
 
   def destroy
@@ -40,7 +45,8 @@ class RequestsController < ApplicationController
 
   def request_params
     params.require :user_id
-    params.require(:request).permit :title, :content
+    params.require(:request).permit :title, :content, pictures_attributes: [:id, :request_id, :picture]
+
   end
 
   def correct_user

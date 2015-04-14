@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413070523) do
+ActiveRecord::Schema.define(version: 20150414055506) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -64,6 +64,17 @@ ActiveRecord::Schema.define(version: 20150413070523) do
   add_index "likes", ["activity_id"], name: "index_likes_on_activity_id", using: :btree
   add_index "likes", ["user_id", "activity_id"], name: "index_likes_on_user_id_and_activity_id", unique: true, using: :btree
   add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
+
+  create_table "pictures", force: :cascade do |t|
+    t.string   "picture",    limit: 255
+    t.integer  "book_id",    limit: 4
+    t.integer  "request_id", limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "pictures", ["book_id"], name: "index_pictures_on_book_id", using: :btree
+  add_index "pictures", ["request_id"], name: "index_pictures_on_request_id", using: :btree
 
   create_table "read_statuses", force: :cascade do |t|
     t.string   "status",     limit: 255
@@ -122,6 +133,8 @@ ActiveRecord::Schema.define(version: 20150413070523) do
   add_foreign_key "favorites", "users"
   add_foreign_key "likes", "activities"
   add_foreign_key "likes", "users"
+  add_foreign_key "pictures", "books"
+  add_foreign_key "pictures", "requests"
   add_foreign_key "read_statuses", "books"
   add_foreign_key "read_statuses", "users"
   add_foreign_key "requests", "users"

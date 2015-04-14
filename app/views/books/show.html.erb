@@ -3,7 +3,7 @@
 <h2><%= @book.author %></h2>
 <div>
   <div class = "col-md-10">
-    <b>Picture present for book</b>
+    <%= render @pictures %>
   </div>
   <div class = "col-md-2">
       <%= label_tag @status %>
